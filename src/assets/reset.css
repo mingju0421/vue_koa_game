@@ -66,3 +66,4 @@ text-align:left;
 q:before, q:after, blockquote:before, blockquote:after {
 content:””;
 }
+*{box-sizing: border-box;}

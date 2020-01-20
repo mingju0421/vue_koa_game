@@ -15,7 +15,7 @@
             record
           </div>
           <div class="roomWrap" v-else>
-            <div class="room" v-for="room in roomArray" :key="room.id"></div>
+            <div class="room" v-for="room in roomArray" :key="room.id" @click="toRoom(room.id)"></div>
             <div class="room add"><i class="el-icon-plus"></i></div>
           </div>
         </el-main>
@@ -30,10 +30,19 @@
         roomArray: [{id: 1}, {id: 2}],
       };
     },
+    components: {
+    },
     methods: {
       handleSelect(key, keyPath) {
         this.activeIndex = keyPath[0]
       },
+      /**
+       * 跳转到对战房间
+       * @param {number} id 房间的id号
+       */
+      toRoom (id) {
+        this.$router.push({name: 'room', params: {id: id}})
+      }
     }
   }
 </script>
