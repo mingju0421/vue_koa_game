@@ -2,8 +2,15 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const isProduction = process.env.NODE_ENV === 'production';
 const cdn = {
-    css: ['xxx.css', 'sss.js'],
-    js: ['xxx.js', 'sss.js']
+    css: [
+        "https://unpkg.com/element-ui/lib/theme-chalk/index.css",
+    ],
+    js: [
+        'https://cdn.jsdelivr.net/npm/vue/dist/vue.js', 
+        'https://unpkg.com/vuex', 
+        'https://unpkg.com/vue-router/dist/vue-router.js',
+        "https://unpkg.com/element-ui/lib/index.js",
+    ]
 }
 module.exports = {
     productionSourceMap: false,
@@ -36,8 +43,9 @@ module.exports = {
 
     },
     chainWebpack: config => {
+        console.log(config)
         if (isProduction) {
-            config.plugins('html')
+            config.plugin('html')
             .tap(args => {
                 args[0].cdn = cdn;
                 return args
