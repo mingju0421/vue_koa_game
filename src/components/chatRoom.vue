@@ -1,5 +1,5 @@
 <template>
-    <div class="chatRoom">
+    <div class="chatRoom" @keydown.enter="sendChat">
         <div class="view" ref="view">
             <div class="chatList" v-for="(chat, index) in chatList" :key="index" ref="chatList">
                 <div class="me" v-if="chat.side === 'me'">
@@ -14,11 +14,15 @@
             <el-input
                 type="textarea"
                 :autosize='{ minRows: 3, maxRows: 3 }'
-                placeholder="请输入内容"
+                placeholder=""
                 v-model="textarea"
                 @change="sendChat"
+                class="textarea"
                 >
             </el-input>
+            <div class="enterSend" @click="sendChat">
+                Enter
+            </div>
         </div>
     </div>
 </template>
@@ -32,7 +36,10 @@ export default {
         }
     },
     methods: {
-        sendChat () {
+        sendChat (e) {
+            if (e.shiftKey) return
+            if (!this.textarea.trim()) return
+            e.preventDefault()
             this.chatList.push({side: 'me', content: this.textarea})
             this.textarea = ''
             this.$nextTick(() => {
@@ -45,6 +52,8 @@ export default {
 
 <style lang="stylus" scoped>
 .chatRoom
+    /deep/ textarea 
+        resize: none;
     height 100%
     border 1px solid #ccc
     display flex
@@ -80,5 +89,18 @@ export default {
                 margin-right 10px
         
     .input
-        // height 60px
+        display flex
+        .textarea
+            flex-grow 1
+            // margin-right -60px
+            // padding-right 60px
+
+        .enterSend
+            width 60px
+            height 100%
+            line-height 60px
+            text-align center
+            z-index 1
+            border-left 1px solid #ccc
+            background #fff
 </style>
